@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дмитрий и Софья — Приглашение на свадьбу</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    color: #3b1f1a;
+    overflow-x: hidden;
+    background: #f0e6d6;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+  }
+
+  /* ============ ФОН: растянут на всю высоту страницы ============ */
+  .bg-photo {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-image: url('bg.jpg');   /* ← если PNG, поменяй на bg.png */
+    background-size: 100% 100%;        /* растянуть точно по размеру страницы */
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-color: #f0e6d6;
+  }
+  /* Мягкое затемнение для читаемости текста */
+  .bg-photo::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(248, 240, 228, 0.55);
+  }
+
+  /* ============ ИНТРО ============ */
+  #intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: radial-gradient(ellipse at center, #3a0d14 0%, #1a0507 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 1.2s ease;
+  }
+  #intro.hide { opacity: 0; pointer-events: none; }
+  .snow-container { position: absolute; inset: 0; overflow: hidden; }
+  .snow {
+    position: absolute;
+    color: rgba(255, 245, 230, 0.9);
+    user-select: none;
+    top: -10%;
+    animation: fall linear forwards;
+    filter: drop-shadow(0 0 6px rgba(255, 245, 230, 0.6));
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateY(110vh) translateX(var(--drift, 40px)) rotate(360deg); opacity: 0.2; }
+  }
+  .intro-text {
+    position: relative;
+    z-index: 2;
+    font-family: 'Great Vibes', cursive;
+    font-size: 64px;
+    color: #f5e6d3;
+    text-align: center;
+    opacity: 0;
+    animation: introShow 1.8s ease 1.6s forwards;
+    text-shadow: 0 0 24px rgba(255, 220, 180, 0.5);
+    padding: 0 20px;
+  }
+  @keyframes introShow {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ============ КОНТЕНТ ============ */
+  #main {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+  #main.show { opacity: 1; }
+
+  .page {
+    min-height: 100vh;
+    padding: 70px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    max-width: 660px;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .content.visible { opacity: 1; transform: translateY(0); }
+
+  /* Типографика */
+  .small-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 44px;
+    color: #6b1f24;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 18px rgba(255, 250, 240, 0.95), 0 0 30px rgba(255, 250, 240, 0.8);
+  }
+  .names {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: 84px;
+    color: #6b1f24;
+    margin: 6px 0 10px;
+    line-height: 1.1;
+    text-shadow: 0 2px 18px rgba(255, 250, 240, 0.95), 0 0 30px rgba(255, 250, 240, 0.8);
+  }
+  h2 {
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: 60px;
+    color: #6b1f24;
+    margin-bottom: 18px;
+    line-height: 1.1;
+    text-shadow: 0 2px 18px rgba(255, 250, 240, 0.95), 0 0 30px rgba(255, 250, 240, 0.8);
+  }
+  .date-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 32px;
+    letter-spacing: 14px;
+    color: #3b1f1a;
+    margin-top: 20px;
+    text-shadow: 0 2px 14px rgba(255, 250, 240, 0.95);
+  }
+  p {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    line-height: 1.7;
+    color: #3b1f1a;
+    font-style: italic;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 14px rgba(255, 250, 240, 0.95), 0 0 22px rgba(255, 250, 240, 0.8);
+  }
+  .divider {
+    width: 90px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(120,60,50,0.7), transparent);
+    margin: 22px auto;
+  }
+
+  /* Еловые ветки */
+  .branch {
+    display: block;
+    width: 200px;
+    height: 44px;
+    margin: 20px auto;
+    filter: drop-shadow(0 2px 8px rgba(255, 250, 240, 0.9));
+  }
+  .branch path, .branch line, .branch circle {
+    stroke: #6b1f24;
+    fill: none;
+    stroke-width: 1.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Детали */
+  .detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 26px 0;
+    color: #3b1f1a;
+    font-style: italic;
+    text-shadow: 0 2px 14px rgba(255, 250, 240, 0.95);
+  }
+  .detail svg {
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    stroke: #6b1f24;
+    fill: none;
+    stroke-width: 1.2;
+    filter: drop-shadow(0 2px 6px rgba(255, 250, 240, 0.9));
+  }
+  .detail .text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 28px;
+    text-align: left;
+    line-height: 1.4;
+  }
+
+  /* Фото */
+  .photo-placeholder {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 3/4;
+    border: 1px dashed rgba(120, 60, 50, 0.5);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(120, 60, 50, 0.6);
+    font-style: italic;
+    font-size: 20px;
+    margin: 24px auto;
+    background: rgba(255, 250, 240, 0.35);
+  }
+
+  /* Фоновые снежинки */
+  .bg-snow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg-snow span {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.7);
+    top: -5%;
+    animation: bgFall linear infinite;
+    text-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+  @keyframes bgFall {
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0); opacity: 0; }
+    10%  { opacity: 0.7; }
+    100% { transform: translateY(110vh) translateX(var(--drift,30px)) rotate(360deg); opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .small-title { font-size: 34px; }
+    .names { font-size: 62px; }
+    h2 { font-size: 44px; }
+    p { font-size: 24px; }
+    .detail .text { font-size: 24px; }
+    .detail svg { width: 38px; height: 38px; }
+    .page { padding: 50px 18px; }
+    .intro-text { font-size: 48px; }
+    .date-big { font-size: 26px; letter-spacing: 10px; }
+    .branch { width: 160px; height: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ИНТРО ============ -->
+<div id="intro">
+  <div class="snow-container" id="snowContainer"></div>
+  <div class="intro-text">Дмитрий & Софья</div>
+</div>
+
+<!-- ============ КОНТЕНТ ============ -->
+<div id="main">
+
+  <!-- Фон внутри main, растянут на всю высоту -->
+  <div class="bg-photo"></div>
+
+  <!-- 1: Титул -->
+  <section class="page">
+    <div class="content">
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+
+      <div class="small-title">Приглашение на свадьбу</div>
+      <div class="names">Дмитрий и Софья</div>
+      <div class="divider"></div>
+      <div class="date-big">18 · 12 · 2026</div>
+
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 2: Обращение -->
+  <section class="page">
+    <div class="content">
+      <h2>Дорогие гости!</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <p>С огромной радостью приглашаем вас разделить с нами один из самых важных и счастливых дней в нашей жизни — день нашей свадьбы!</p>
+      <p>Будем счастливы видеть вас, разделить наши эмоции, улыбки и этот особенный момент, который навсегда останется в наших сердцах.</p>
+    </div>
+  </section>
+
+  <!-- 3: Детали -->
+  <section class="page">
+    <div class="content">
+      <h2>Детали</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+
+      <div class="detail">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="16" rx="2"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <line x1="8" y1="3" x2="8" y2="7"/>
+          <line x1="16" y1="3" x2="16" y2="7"/>
+          <circle cx="12" cy="15" r="1.2" fill="#6b1f24" stroke="none"/>
+        </svg>
+        <div class="text">18 декабря 2026</div>
+      </div>
+
+      <div class="detail">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s7-7.5 7-12a7 7 0 0 0-14 0c0 4.5 7 12 7 12z"/>
+          <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+        <div class="text">Банкетный зал «Корона»,<br>ул. Болдина, 94</div>
+      </div>
+
+      <div class="detail">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/>
+          <polyline points="12 7 12 12 15.5 14"/>
+        </svg>
+        <div class="text">Сбор гостей — 15:00<br>Банкет — 16:00</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4: Дресс-код -->
+  <section class="page">
+    <div class="content">
+      <h2>Дресс-код</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <p>Строгого дресс-кода у нас нет — будем рады видеть вас в наряде, в котором вы чувствуете себя красиво и комфортно.</p>
+      <p>Просим лишь оставить белый и красный цвета для особенной атмосферы нашего праздника.</p>
+    </div>
+  </section>
+
+  <!-- 5: Дети -->
+  <section class="page">
+    <div class="content">
+      <h2>Праздник для взрослых</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <p>Мы планируем свадьбу в формате праздника для взрослых. К сожалению, детская площадка, отдельные детские зоны и анимация не предусмотрены.</p>
+      <p>Поэтому будем признательны, если вы заранее позаботитесь о том, чтобы оставить маленьких гостей дома.</p>
+      <p>Если же вы планируете приехать с ребёнком, просим учесть, что организация досуга и присмотр за ним остаются ответственностью родителей.</p>
+    </div>
+  </section>
+
+  <!-- 6: Сюрпризы -->
+  <section class="page">
+    <div class="content">
+      <h2>Сюрпризы и творческие поздравления</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <p>Если вы готовите для нас сюрприз, творческий номер или особенное поздравление, пожалуйста, свяжитесь заранее с нашим ведущим. Так мы сможем включить вашу идею в программу вечера.</p>
+      <div class="divider"></div>
+      <p><strong>Ведущая Татьяна Морозова</strong><br>
+      тел. 8 950 913 4338<br>
+      <span style="font-size:22px; opacity:0.8;">vk.com/bilonaxx</span></p>
+    </div>
+  </section>
+
+  <!-- 7: Цветы -->
+  <section class="page">
+    <div class="content">
+      <h2>Вместо цветов — бутылка с историей</h2>
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <p>Если захочется порадовать нас букетом, предлагаем заменить его бутылкой хорошего вина.</p>
+      <p>Будет здорово, если вы добавите к ней записку с поводом или особенным моментом, для которого нам стоит её открыть.</p>
+      <p>Пусть у нас появится небольшая коллекция вина, в которой каждая бутылка будет хранить тёплые пожелания и частичку вашей заботы.</p>
+    </div>
+  </section>
+
+  <!-- 8: Финал -->
+  <section class="page">
+    <div class="content">
+      <svg class="branch" viewBox="0 0 180 40">
+        <line x1="90" y1="20" x2="20" y2="20"/>
+        <line x1="90" y1="20" x2="160" y2="20"/>
+        <line x1="78" y1="20" x2="70" y2="12"/>
+        <line x1="78" y1="20" x2="70" y2="28"/>
+        <line x1="64" y1="20" x2="56" y2="12"/>
+        <line x1="64" y1="20" x2="56" y2="28"/>
+        <line x1="50" y1="20" x2="42" y2="13"/>
+        <line x1="50" y1="20" x2="42" y2="27"/>
+        <line x1="36" y1="20" x2="28" y2="14"/>
+        <line x1="36" y1="20" x2="28" y2="26"/>
+        <line x1="102" y1="20" x2="110" y2="12"/>
+        <line x1="102" y1="20" x2="110" y2="28"/>
+        <line x1="116" y1="20" x2="124" y2="12"/>
+        <line x1="116" y1="20" x2="124" y2="28"/>
+        <line x1="130" y1="20" x2="138" y2="13"/>
+        <line x1="130" y1="20" x2="138" y2="27"/>
+        <line x1="144" y1="20" x2="152" y2="14"/>
+        <line x1="144" y1="20" x2="152" y2="26"/>
+        <circle cx="90" cy="20" r="2"/>
+      </svg>
+      <img src="photo.jpg" class="photo" alt="Дмитрий и Софья">
+      <h2>До встречи 18 декабря!</h2>
+      <p>С теплом и любовью,<br><span style="font-family:'Great Vibes',cursive; font-size:72px; color:#6b1f24;">Дмитрий и Софья</span></p>
+    </div>
+  </section>
+
+</div>
+
+<div class="bg-snow" id="bgSnow"></div>
+
+<script>
+  /* ИНТРО */
+  const intro = document.getElementById('intro');
+  const snowContainer = document.getElementById('snowContainer');
+  const snowSymbols = ['❄', '❅', '❆', '✻', '✽'];
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'snow';
+    s.textContent = snowSymbols[Math.floor(Math.random() * snowSymbols.length)];
+    s.style.left = Math.random() * 100 + '%';
+    s.style.fontSize = (10 + Math.random() * 24) + 'px';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    s.style.animationDelay = (Math.random() * 2.5) + 's';
+    s.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
+    s.style.opacity = 0.5 + Math.random() * 0.5;
+    snowContainer.appendChild(s);
+  }
+  setTimeout(() => {
+    intro.classList.add('hide');
+    document.getElementById('main').classList.add('show');
+    setTimeout(() => intro.remove(), 1400);
+  }, 3800);
+
+  /* ФОНОВЫЙ СНЕГ */
+  const bgSnow = document.getElementById('bgSnow');
+  for (let i = 0; i < 25; i++) {
+    const s = document.createElement('span');
+    s.textContent = '❄';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.fontSize = (8 + Math.random() * 14) + 'px';
+    s.style.animationDuration = (10 + Math.random() * 15) + 's';
+    s.style.animationDelay = (Math.random() * 10) + 's';
+    s.style.setProperty('--drift', (Math.random() * 80 - 40) + 'px');
+    bgSnow.appendChild(s);
+  }
+
+  /* ПОЯВЛЕНИЕ СЕКЦИЙ */
+  const contents = document.querySelectorAll('.content');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+  contents.forEach(c => observer.observe(c));
+</script>
+
+</body>
+</html>
