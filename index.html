@@ -19,24 +19,31 @@
   }
 
   /* ============ ФОН-КАРТИНКА: длинная, идёт сверху вниз ============ */
-  .bg-img {
+ .bg-img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
-    height: auto;          /* высота по пропорции картинки */
+    height: auto;
     display: block;
     z-index: -2;
     pointer-events: none;
+    filter: blur(2px);
   }
-  /* Мягкое затемнение поверх картинки — для читаемости текста */
+  /* Плавное растворение картинки в кремовый фон + лёгкое затемнение */
   .bg-overlay {
     position: absolute;
     top: 0; left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: rgba(248, 240, 228, 0.45);
+    background: linear-gradient(
+      to bottom,
+      rgba(248, 240, 228, 0.35) 0%,
+      rgba(248, 240, 228, 0.35) 60%,
+      rgba(240, 230, 214, 0.75) 88%,
+      #f0e6d6 100%
+    );
     pointer-events: none;
   }
 
