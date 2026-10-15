@@ -18,22 +18,25 @@
     position: relative;
   }
 
-  /* ============ ФОН: стоит на месте, не растягивается ============ */
-  .bg-photo {
-    position: fixed;
-    inset: 0;
+  /* ============ ФОН-КАРТИНКА: длинная, растянута по ширине, без обрезки ============ */
+  .bg-img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: auto;           /* высота по пропорции картинки */
+    display: block;
     z-index: -2;
-    background-image: url('bg.jpg');   /* ← если PNG, поменяй на bg.png */
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-color: #f0e6d6;
+    pointer-events: none;
   }
-  /* Мягкое затемнение для читаемости текста */
-  .bg-photo::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: rgba(248, 240, 228, 0.6);
+  /* Мягкое затемнение поверх фона для читаемости текста */
+  .bg-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(248, 240, 228, 0.45);
+    pointer-events: none;
   }
 
   /* ============ ИНТРО ============ */
@@ -107,7 +110,6 @@
   }
   .content.visible { opacity: 1; transform: translateY(0); }
 
-  /* Типографика */
   .small-title {
     font-family: 'Great Vibes', cursive;
     font-size: 44px;
@@ -160,7 +162,6 @@
     margin: 22px auto;
   }
 
-  /* Еловые ветки */
   .branch {
     display: block;
     width: 200px;
@@ -176,7 +177,6 @@
     stroke-linejoin: round;
   }
 
-  /* Детали */
   .detail {
     display: flex;
     align-items: center;
@@ -204,7 +204,6 @@
     line-height: 1.4;
   }
 
-  /* Фото */
   .photo-placeholder {
     width: 100%;
     max-width: 340px;
@@ -229,7 +228,6 @@
     box-shadow: 0 10px 40px rgba(60, 20, 20, 0.35);
   }
 
-  /* Фоновые снежинки */
   .bg-snow {
     position: fixed;
     inset: 0;
@@ -272,9 +270,11 @@
   <div class="intro-text">Дмитрий & Софья</div>
 </div>
 
-<!-- ============ ФОН (снаружи main, стоит на месте) ============ -->
-<div class="bg-photo"></div>
-<div class="bg-snow" id="bgSnow"></div>
+<!-- ============ ФОН-КАРТИНКА ============ -->
+<div id="bgWrap" style="position:absolute; top:0; left:0; width:100%; z-index:-2;">
+  <img src="bg.jpg" class="bg-img" alt="">
+  <div class="bg-overlay"></div>
+</div>
 
 <!-- ============ КОНТЕНТ ============ -->
 <div id="main">
@@ -574,6 +574,8 @@
   </section>
 
 </div>
+
+<div class="bg-snow" id="bgSnow"></div>
 
 <script>
   /* ИНТРО */
