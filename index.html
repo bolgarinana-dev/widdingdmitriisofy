@@ -18,17 +18,18 @@
     position: relative;
   }
 
-  /* ============ ФОН-КАРТИНКА: длинная, растянута по ширине, без обрезки ============ */
+  /* ============ ФОН-КАРТИНКА: длинная, идёт сверху вниз ============ */
   .bg-img {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;           /* высота по пропорции картинки */
+    height: auto;          /* высота по пропорции картинки */
     display: block;
     z-index: -2;
     pointer-events: none;
   }
-  /* Мягкое затемнение поверх фона для читаемости текста */
+  /* Мягкое затемнение поверх картинки — для читаемости текста */
   .bg-overlay {
     position: absolute;
     top: 0; left: 0;
@@ -204,21 +205,6 @@
     line-height: 1.4;
   }
 
-  .photo-placeholder {
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 3/4;
-    border: 1px dashed rgba(120, 60, 50, 0.5);
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(120, 60, 50, 0.6);
-    font-style: italic;
-    font-size: 20px;
-    margin: 24px auto;
-    background: rgba(255, 250, 240, 0.35);
-  }
   .photo {
     width: 100%;
     max-width: 340px;
@@ -264,16 +250,16 @@
 </head>
 <body>
 
+<!-- ============ ФОН-КАРТИНКА (за текстом) ============ -->
+<div id="bgWrap" style="position:absolute; top:0; left:0; width:100%; z-index:-2;">
+  <img src="bg.jpg" class="bg-img" alt="">
+  <div class="bg-overlay"></div>
+</div>
+
 <!-- ============ ИНТРО ============ -->
 <div id="intro">
   <div class="snow-container" id="snowContainer"></div>
   <div class="intro-text">Дмитрий & Софья</div>
-</div>
-
-<!-- ============ ФОН-КАРТИНКА ============ -->
-<div id="bgWrap" style="position:absolute; top:0; left:0; width:100%; z-index:-2;">
-  <img src="bg.jpg" class="bg-img" alt="">
-  <div class="bg-overlay"></div>
 </div>
 
 <!-- ============ КОНТЕНТ ============ -->
