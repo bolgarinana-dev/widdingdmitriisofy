@@ -18,16 +18,14 @@
     position: relative;
   }
 
-  /* ============ ФОН: растянут на всю высоту страницы ============ */
+  /* ============ ФОН: стоит на месте, не растягивается ============ */
   .bg-photo {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    inset: 0;
     z-index: -2;
     background-image: url('bg.jpg');   /* ← если PNG, поменяй на bg.png */
-    background-size: 100% 100%;        /* растянуть точно по размеру страницы */
-    background-position: top center;
+    background-size: cover;
+    background-position: center center;
     background-repeat: no-repeat;
     background-color: #f0e6d6;
   }
@@ -35,7 +33,7 @@
   .bg-photo::after {
     content: '';
     position: absolute; inset: 0;
-    background: rgba(248, 240, 228, 0.55);
+    background: rgba(248, 240, 228, 0.6);
   }
 
   /* ============ ИНТРО ============ */
@@ -222,6 +220,14 @@
     margin: 24px auto;
     background: rgba(255, 250, 240, 0.35);
   }
+  .photo {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 3px;
+    margin: 24px auto;
+    display: block;
+    box-shadow: 0 10px 40px rgba(60, 20, 20, 0.35);
+  }
 
   /* Фоновые снежинки */
   .bg-snow {
@@ -266,11 +272,12 @@
   <div class="intro-text">Дмитрий & Софья</div>
 </div>
 
+<!-- ============ ФОН (снаружи main, стоит на месте) ============ -->
+<div class="bg-photo"></div>
+<div class="bg-snow" id="bgSnow"></div>
+
 <!-- ============ КОНТЕНТ ============ -->
 <div id="main">
-
-  <!-- Фон внутри main, растянут на всю высоту -->
-  <div class="bg-photo"></div>
 
   <!-- 1: Титул -->
   <section class="page">
@@ -567,8 +574,6 @@
   </section>
 
 </div>
-
-<div class="bg-snow" id="bgSnow"></div>
 
 <script>
   /* ИНТРО */
