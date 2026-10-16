@@ -210,7 +210,7 @@
     line-height: 1.4;
   }
 
-  /* ОБРАТНЫЙ ОТСЧЁТ */
+  /* ОБРАТНЫЙ ОТСЧЁТ — надпись сверху, цифра снизу */
   .countdown {
     margin-top: 40px;
     display: flex;
@@ -227,14 +227,6 @@
     backdrop-filter: blur(3px);
     box-shadow: 0 4px 16px rgba(60, 20, 20, 0.15);
   }
-  .countdown-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-size: 34px;
-    color: #6b1f24;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
   .countdown-label {
     font-family: 'Cormorant Garamond', serif;
     font-size: 14px;
@@ -242,6 +234,14 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0.85;
+    margin-bottom: 6px;
+  }
+  .countdown-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 34px;
+    color: #6b1f24;
+    line-height: 1;
   }
   .countdown-title {
     font-family: 'Cormorant Garamond', serif;
@@ -317,7 +317,7 @@
     .countdown { gap: 8px; margin-top: 28px; }
     .countdown-item { padding: 10px 12px; min-width: 68px; }
     .countdown-num { font-size: 26px; }
-    .countdown-label { font-size: 11px; letter-spacing: 1px; }
+    .countdown-label { font-size: 11px; letter-spacing: 1px; margin-bottom: 4px; }
     .countdown-title { font-size: 16px; letter-spacing: 3px; }
   }
 </style>
@@ -391,24 +391,23 @@
         <circle cx="90" cy="20" r="2"/>
       </svg>
 
-      <!-- ОБРАТНЫЙ ОТСЧЁТ -->
-      <div class="countdown-title">До начала торжества осталось</div>
+      <div class="countdown-title">До сбора гостей осталось</div>
       <div class="countdown" id="countdown">
         <div class="countdown-item">
-          <div class="countdown-num" id="days">0</div>
           <div class="countdown-label">дней</div>
+          <div class="countdown-num" id="days">0</div>
         </div>
         <div class="countdown-item">
-          <div class="countdown-num" id="hours">0</div>
           <div class="countdown-label">часов</div>
+          <div class="countdown-num" id="hours">0</div>
         </div>
         <div class="countdown-item">
-          <div class="countdown-num" id="minutes">0</div>
           <div class="countdown-label">минут</div>
+          <div class="countdown-num" id="minutes">0</div>
         </div>
         <div class="countdown-item">
-          <div class="countdown-num" id="seconds">0</div>
           <div class="countdown-label">секунд</div>
+          <div class="countdown-num" id="seconds">0</div>
         </div>
       </div>
     </div>
@@ -525,7 +524,7 @@
         <circle cx="90" cy="20" r="2"/>
       </svg>
       <p>Строгого дресс-кода у нас нет — будем рады видеть вас в наряде, в котором вы чувствуете себя красиво и комфортно.</p>
-      <p>Просим лишь не надевать белый и красный цвета, а оставить их для особенной атмосферы нашего праздника.</p>
+      <p>Просим лишь оставить белый и красный цвета для особенной атмосферы нашего праздника.</p>
     </div>
   </section>
 
@@ -554,7 +553,7 @@
         <line x1="144" y1="20" x2="152" y2="26"/>
         <circle cx="90" cy="20" r="2"/>
       </svg>
-      <p>Мы планируем свадьбу в формате праздника для взрослых. Детская площадка, отдельные детские зоны и анимация не предусмотрены.</p>
+      <p>Мы планируем свадьбу в формате праздника для взрослых. К сожалению, детская площадка, отдельные детские зоны и анимация не предусмотрены.</p>
       <p>Поэтому будем признательны, если вы заранее позаботитесь о том, чтобы оставить маленьких гостей дома.</p>
       <p>Если же вы планируете приехать с ребёнком, просим учесть, что организация досуга и присмотр за ним остаются ответственностью родителей.</p>
     </div>
